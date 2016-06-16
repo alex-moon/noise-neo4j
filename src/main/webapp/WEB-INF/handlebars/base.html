@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>The Tree</title>
+<link rel="stylesheet" href="/tree/static/css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="/tree/static/css/styles.css" type="text/css" />
+<script type="text/javascript" src="/tree/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/tree/static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/tree/static/js/underscore.min.js"></script>
+</head>
+<body>
+<h1>The Tree</h1>
+<div id="content">
+    {{# block "content" }}
+    {{/ block}}
+</div>
+<div id="footer">
+    <p>bit of a muckabout by <a href="https://github.com/alex-moon">Alex Moon</a> &#8594; <a href="https://github.com/alex-moon/tree">fork it</a></p>
+    {{# if user }}
+        <form method="post" action="/tree/logout">
+            <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}"/>
+            <input class="btn btn-primary" type="submit" value="Logout" />
+        </form>
+    {{ else }}
+        <p>Login to start.</p>
+    {{/ if }}
+</div>
+</body>
+</html>
