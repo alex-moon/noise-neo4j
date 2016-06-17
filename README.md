@@ -6,4 +6,6 @@ I've already solved this problem on paper.
 
 ## Development
 
+https://spring.io/guides/gs/accessing-neo4j-data-rest/
+
 
