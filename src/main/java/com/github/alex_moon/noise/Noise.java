@@ -1,58 +1,26 @@
 package com.github.alex_moon.noise;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.neo4j.config.EnableNeo4jRepositories;
+import org.springframework.data.neo4j.config.Neo4jConfiguration;
+import org.springframework.data.neo4j.rest.SpringCypherRestGraphDatabase;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-
-@RestController
-@RequestMapping("/")
-public class Noise {
-
-    protected ResponseEntity<Response> errorResponse(BindingResult bindingResult) {
-        Response response = new Response(bindingResult.getFieldErrors());
-        return new ResponseEntity<Response>(response, HttpStatus.OK);
+@SpringBootApplication
+@EnableNeo4jRepositories
+public class Noise extends Neo4jConfiguration {
+    public static void main(String[] args) {
+        SpringApplication.run(Noise.class, args);
     }
 
-    protected ResponseEntity<Response> errorResponse(String error, HttpStatus status) {
-        Map<String, String> errors = new HashMap<String, String>();
-        errors.put("", error);
-        return new ResponseEntity<Response>(new Response(errors), status);
+    public Noise() {
+        setBasePackage("com.github.alex_moon.noise");
     }
 
-    protected ResponseEntity<Response> errorResponse(String error) {
-        return errorResponse(error, HttpStatus.OK);
-    }
-
-    protected ResponseEntity<Response> successResponse(Object entityResult) {
-        return new ResponseEntity<Response>(new Response(entityResult), HttpStatus.OK);
-    }
-
-    @RequestMapping(value="/text", method=RequestMethod.POST)
-    public ResponseEntity<Response> createTransaction(@RequestBody @Valid Request request, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return errorResponse(bindingResult);
-        }
-        if (request.getText().isEmpty()) {
-            return errorResponse("Whack some words in there ya fuckin");
-        }
-        return successResponse("lol it good");
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Response> handleError(HttpServletRequest request, HttpServletResponse response, Exception exception) {
-        return errorResponse(exception.getMessage(), HttpStatus.valueOf(response.getStatus()));
+    @Bean()
+    public GraphDatabaseService graphDatabaseService() {
+        return new SpringCypherRestGraphDatabase("http://127.0.0.1:7474/db/data", "neo4j", "fuck");
     }
 }
