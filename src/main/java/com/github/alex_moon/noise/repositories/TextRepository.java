@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.github.alex_moon.noise.entities.Text;
 
-@RepositoryRestResource(collectionResourceRel = "texts", path = "texts")
+@RepositoryRestResource(collectionResourceRel="texts", path="texts")
 public interface TextRepository extends PagingAndSortingRepository<Text, Long> {
-    List<Text> findByUuid(@Param("uuid") String uuid);
+    public List<Text> findByUuid(@Param("uuid") String uuid);
 }
