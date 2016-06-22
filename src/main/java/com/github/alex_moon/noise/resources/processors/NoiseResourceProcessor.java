@@ -1,4 +1,4 @@
-package com.github.alex_moon.noise;
+package com.github.alex_moon.noise.resources.processors;
 
 import org.springframework.data.rest.webmvc.RepositoryLinksResource;
 import org.springframework.hateoas.ResourceProcessor;
@@ -10,6 +10,7 @@ import com.github.alex_moon.noise.controllers.NoiseController;
 @Component
 public class NoiseResourceProcessor
     implements ResourceProcessor<RepositoryLinksResource> {
+
     public RepositoryLinksResource process(RepositoryLinksResource resource) {
         resource.add(
             ControllerLinkBuilder

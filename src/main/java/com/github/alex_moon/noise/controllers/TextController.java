@@ -3,6 +3,7 @@ package com.github.alex_moon.noise.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.ExposesResourceFor;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,7 +15,7 @@ import com.github.alex_moon.noise.resources.MessageResource;
 
 @RestController
 @ExposesResourceFor(Text.class)
-@RequestMapping("/noise/texts")
+@RequestMapping("/noise/texts/")
 public class TextController {
     @Autowired
     private TextRepository textRepository;
@@ -34,5 +35,14 @@ public class TextController {
     public Text tokenize(@PathVariable Long id) {
         Text text = textRepository.findOne(id);
         return text;
+    }
+
+    @RequestMapping(value = "{id}/tokenize/")
+    public MessageResource describeTokenize(@PathVariable Long id) {
+        MessageResource result = new MessageResource();
+        result.setMessage(
+            "Use this endpoint to begin asynchronous tokenisation"
+        );
+        return result;
     }
 }
