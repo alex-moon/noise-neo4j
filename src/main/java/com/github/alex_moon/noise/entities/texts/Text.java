@@ -1,16 +1,24 @@
-package com.github.alex_moon.noise.entities;
+package com.github.alex_moon.noise.entities.texts;
+
+import java.util.List;
 
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.RelatedTo;
 
 @NodeEntity
 public class Text {
-    @GraphId private Long id;
+    @GraphId
+    private Long id;
     
-    @Indexed private String uuid;
+    @Indexed
+    private String uuid;
 
     private String rawText;
+
+    @RelatedTo(type="IS_TOKENIZED_BY")
+    private List<Tokenization> tokenizations;
 
     public Long getId() {
         return id;
